@@ -5,41 +5,90 @@
 <title>Chessboard</title>
 <meta charset="UTF-8">  
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
-<style type="text/css">
-.chessboard {
-    width: 690px;
-    height: 690px;
-    margin: 20px;
-    border: 25px solid #333;
-}
-.black {
-    float: left;
-    width: 80px;
-    height: 80px;
-    background-color: #999;
-      font-size:50px;
-    text-align:center;
-    display: table-cell;
-    vertical-align:middle;
-}
-.white {
-    float: left;
-    width: 80px;
-    height: 80px;
-    background-color: #fff;
-    font-size:50px;
-    text-align:center;
-    display: table-cell;
-    vertical-align:middle;
-}
-</style>
+<!-- <base href="http://chessboardjs.com/" /> -->
+<link rel="stylesheet" href="./css/chessboard-0.3.0.css" />
+ 
+
+<script type="text/javascript">
+
+//function readCookie(name){
+//return(document.cookie.match('(|; )'+name+'=([;]*)')||0)[2]
+//}
+
+var FEN = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR';
+//var FEN2 = '1k6/6p1/2P1KpNP/3P1p2/6pp/4Q3/3BP2n/5R2';
+		
+		function WebSocketAPI() {
+			var interval;
+			var token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbmRpbmVsQHN0dWQubnRudS5ubyIsInNjb3BlcyI6WyJURU5BTlRfQURNSU4iXSwidXNlcklkIjoiN2QzZjZmNjAtMGRhZS0xMWU4LWIxMGUtMDNlOTQ2MTEwOWNhIiwiZmlyc3ROYW1lIjoiQW5kaW5lIiwibGFzdE5hbWUiOiJMdWljayIsImVuYWJsZWQiOnRydWUsImlzUHVibGljIjpmYWxzZSwidGVuYW50SWQiOiI3ZDNlMGZkMC0wZGFlLTExZTgtYjEwZS0wM2U5NDYxMTA5Y2EiLCJjdXN0b21lcklkIjoiMTM4MTQwMDAtMWRkMi0xMWIyLTgwODAtODA4MDgwODA4MDgwIiwiaXNzIjoidGhpbmdzYm9hcmQuaW8iLCJpYXQiOjE1MjE1NDM0MzEsImV4cCI6MTUzMDU0MzQzMX0.P3UKQ9FwGEJdunEMp8BilUl7T5dVb5vPpAGyKVWW63h6Z_RTXM6v54Z2engnjIGCsWkBU2jASelmOsnUNXEG9Q";
+            var entityId = "f2423ad0-2c2c-11e8-9a77-c3b186e30863";
+            var webSocket = new WebSocket("wss://demo.thingsboard.io/api/ws/plugins/telemetry?token=" + token);
+           
+
+            webSocket.onopen = function () {
+                var object = {
+                    tsSubCmds: [
+                        {
+                            entityType: "DEVICE",
+                            entityId: entityId,
+                            scope: "LATEST_TELEMETRY",
+                            cmdId: 10
+                        }
+                    ],
+                    historyCmds: [],
+                    attrSubCmds: []
+                };
+                var data = JSON.stringify(object);
+                webSocket.send(data);
+            
+            };
+
+            
+			webSocket.onmessage = function (event) {
+                var received_msg = event.data;
+				
+				
+                // Parse JSON message
+                var received_obj = JSON.parse(event.data);
+
+
+                // Check if object contains the data
+		   
+		if (received_obj.data.FEN) {
+                           
+			document.getElementById("tx1").innerHTML = (received_obj.data.FEN[0][1]);
+			FEN = (received_obj.data.FEN[0][1]);	
+			console.log(FEN);
+		
+
+		//caller setFEN hvis FEN er mottatt:
+			setFEN();
+                }             
+
+			};	
+			
+
+            webSocket.onclose = function (event) {
+                
+            };
+        }
+
+
+interval = setInterval(WebSocketAPI, 4000);
+
+//onScroll="document.cookie='ypos=' + window.pageYOffset" onLoad="window.scrollTo(0,readCookie('ypos'))"
+		
+    </script>
 
 
 </head>
 
-<body>
+<body onload="WebSocketAPI()" >
+
 
 <!-- Header -->
 <header class="w3-display-container w3-content w3-center" style="max-width:1500px">
@@ -68,7 +117,7 @@
 <!-- Page content -->
 <div class="w3-content w3-padding-large w3-margin-top" id="portfolio"> 
 
-		<h1>IoT: Chessboard<h2>
+<!--		<h1>IoT: Chessboard<h2> -->
 		
 		
 		
@@ -78,85 +127,52 @@
 	<h2> Live visualization </h2>
 	
 	
-	<br \>
+	<br />
 		
-		
-		
+	
+<div id="board" style="width: 400px"></div>
 
-		<div class="chessboard">
-		<!-- 1st -->
-		<div class="white">&#9820;</div>
-		<div class="black">&#9822;</div>
-		<div class="white">&#9821;</div>
-		<div class="black">&#9819;</div>
-		<div class="white">&#9818;</div>
-		<div class="black">&#9821;</div>
-		<div class="white">&#9822;</div>
-		<div class="black">&#9820;</div>
-		<!-- 2nd -->
-		<div class="black">&#9823;</div>
-		<div class="white">&#9823;</div>
-		<div class="black">&#9823;</div>
-		<div class="white">&#9823;</div>
-		<div class="black">&#9823;</div>
-		<div class="white">&#9823;</div>
-		<div class="black">&#9823;</div>
-		<div class="white">&#9823;</div>
-		<!-- 3th -->
-		<div class="white"></div>
-		<div class="black"></div>
-		<div class="white"></div>
-		<div class="black"></div>
-		<div class="white"></div>
-		<div class="black"></div>
-		<div class="white"></div>
-		<div class="black"></div>
-		<!-- 4st -->
-		<div class="black"></div>
-		<div class="white"></div>
-		<div class="black"></div>
-		<div class="white"></div>
-		<div class="black"></div>
-		<div class="white"></div>
-		<div class="black"></div>
-		<div class="white"></div>
-		<!-- 5th -->
-		<div class="white"></div>
-		<div class="black"></div>
-		<div class="white"></div>
-		<div class="black"></div>
-		<div class="white"></div>
-		<div class="black"></div>
-		<div class="white"></div>
-		<div class="black"></div>
-		<!-- 6th -->
-		<div class="black"></div>
-		<div class="white"></div>
-		<div class="black"></div>
-		<div class="white"></div>
-		<div class="black"></div>
-		<div class="white"></div>
-		<div class="black"></div>
-		<div class="white"></div>
-		<!-- 7th -->
-		<div class="white">&#9817;</div>
-		<div class="black">&#9817;</div>
-		<div class="white">&#9817;</div>
-		<div class="black">&#9817;</div>
-		<div class="white">&#9817;</div>
-		<div class="black">&#9817;</div>
-		<div class="white">&#9817;</div>
-		<div class="black">&#9817;</div>
-		<!-- 8th -->
-		<div class="black">&#9814;</div>
-		<div class="white">&#9816;</div>
-		<div class="black">&#9815;</div>
-		<div class="white">&#9813;</div>
-		<div class="black">&#9812;</div>
-		<div class="white">&#9815;</div>
-		<div class="black">&#9816;</div>
-		<div class="white">&#9814;</div>
-	</div>
+
+<script src="./js/json3.min.js"></script>
+<script src="./js/jquery-1.10.1.min.js"></script>
+<script src="./js/chessboard.js"></script>
+
+<script>
+
+
+var init = function() {
+
+var board = ChessBoard('board', FEN);
+
+};
+//}   
+
+$(document).ready(init);
+
+
+
+
+//setter brettet lik FEN
+function setFEN() {
+	
+	var tempScrollTop = $(window).scrollTop();
+	
+   board = ChessBoard('board', FEN);
+   $(window).scrollTop(tempScrollTop);
+   interval2 = setInterval(setFEN, 10000);
+
+}
+
+
+//caller funksjonen, kan også flyttes til body onload
+//setFEN();
+</script>
+
+
+<b>FEN string:</b>
+<div id="tx1"></div>
+
+
 
 <!-- End page content -->
 
