@@ -14,7 +14,7 @@
 
  
 
-
+<!--<script src="./js/init.js"></script>-->
 <script src="./js/json3.min.js"></script>
 <script src="./js/jquery-1.10.1.min.js"></script>
 <script src="./js/chessboard.js"></script>
@@ -78,7 +78,49 @@
 
 
 
+<script>
+var init = function() {
+FEN = 'rnbqkbnr/p1p5/1p1ppppp/8/8/1P1P1P1P/P1P1P1P1/RNBQKBNR';
+var board = ChessBoard('board', 'start');
 
+
+//if (FEN != null) { 
+//	setFEN();
+//}
+
+
+   
+//setter brettet lik FEN
+function setFEN() {
+	
+	//var tempScrollTop = $(window).scrollTop();
+	board.position(FEN);
+  // board = ChessBoard('board', FEN);
+  // $(window).scrollTop(tempScrollTop);
+   //interval2 = setInterval(setFEN, 8000);
+
+};
+setFEN();
+
+
+
+
+
+
+
+
+//caller funksjonen, kan også flyttes til body onload
+//setFEN();
+};
+//end init
+
+
+$(document).ready(init);
+
+
+
+
+</script>
 
 
 
@@ -87,25 +129,8 @@
 <div id="tx1"></div>
 
 
-<script>
 
-//random FEN streng for testing
-FEN = 'rnbqkbnr/p1p5/1p1ppppp/8/8/1P1P1P1P/P1P1P1P1/RNBQKBNR';
-
-//init brettet i startpos
-var board = ChessBoard('board', 'start');
-
- 
-//funksjon for å flytte brikkene
-function setFEN() {
-	board.position(FEN);
-};
-
-
-
-
-</script>
-
+<!-- End page content -->
 
 
 </body>
