@@ -58,5 +58,5 @@ var FEN;
         }
 
 
-interval = setInterval(WebSocketAPI, 20000);
+interval = setInterval(WebSocketAPI, 4000);
 
