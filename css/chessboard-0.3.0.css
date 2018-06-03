@@ -68,3 +68,9 @@
   top: 2px;
   left: 2px;
 }
+
+#scrollbox {
+    overflow: scroll;
+    width: 50%;
+    height: 100px;
+}

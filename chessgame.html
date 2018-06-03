@@ -12,15 +12,12 @@
 <!-- <base href="http://chessboardjs.com/" /> -->
 <link rel="stylesheet" href="./css/chessboard-0.3.0.css" />
 
- 
 
 
 <script src="./js/json3.min.js"></script>
 <script src="./js/jquery-1.10.1.min.js"></script>
 <script src="./js/chessboard.js"></script>
 <script src="./js/websocket.js"></script>
-
-
 
 
 
@@ -62,9 +59,6 @@
 
 <!--		<h1>IoT: Chessboard<h2> -->
 		
-		
-		
-	
 	
 	
 	<h2> Live visualization </h2>
@@ -78,30 +72,43 @@
 
 
 
-
-
-
-
-
 <b>FEN string:</b>
-<div id="tx1"></div>
+<!--<div id="tx1"></div>  -->
+<div id="scrollbox"></div>
 
 
 <script>
 
-//random FEN streng for testing
-FEN = 'rnbqkbnr/p1p5/1p1ppppp/8/8/1P1P1P1P/P1P1P1P1/RNBQKBNR';
+//random FEN string for testing
+//FEN = 'rnbqkbnr/p1p5/1p1ppppp/8/8/1P1P1P1P/P1P1P1P1/RNBQKBNR';
 
-//init brettet i startpos
+//Init chessboard in start position
 var board = ChessBoard('board', 'start');
+var prevFEN;
+
+function addElement() {
+    var scrollbox = document.getElementById('scrollbox');
+    
+    // Create some element, e.g. div
+    var newElement = document.createElement('div');
+    newElement.setAttribute('id', "some-id-for-new-element");
+    
+    if (prevFEN != FEN){
+	
+    newElement.innerHTML = FEN;
+    prevFEN = FEN;
+
+    }
+    
+    scrollbox.prepend(newElement);
+}
 
  
-//funksjon for å flytte brikkene
+//Function to move chess pieces
 function setFEN() {
 	board.position(FEN);
+	addElement();
 };
-
-
 
 
 </script>

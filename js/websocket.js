@@ -39,7 +39,7 @@ var FEN;
 		   
 		if (received_obj.data.FEN) {
                            
-			document.getElementById("tx1").innerHTML = (received_obj.data.FEN[0][1]);
+			//document.getElementById("tx1").innerHTML = (received_obj.data.FEN[0][1]);
 			FEN = (received_obj.data.FEN[0][1]);	
 			console.log(FEN);
 			setFEN();
@@ -53,10 +53,10 @@ var FEN;
 			
 
             webSocket.onclose = function (event) {
-               // alert("Connection is closed!");
+               alert("Connection is closed!");
             };
         }
 
 
-interval = setInterval(WebSocketAPI, 4000);
+interval = setInterval(WebSocketAPI, 5000);
 
