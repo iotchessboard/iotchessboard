@@ -53,10 +53,10 @@ var FEN;
 			
 
             webSocket.onclose = function (event) {
-               alert("Connection is closed!");
+               //alert("Connection is closed!");
             };
         }
 
 
-interval = setInterval(WebSocketAPI, 5000);
+interval = setInterval(WebSocketAPI, 2000);
 
